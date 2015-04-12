@@ -66,7 +66,11 @@
 %type <blocklist> else_ifs_or_end
 
 /* lowest to highest precedence */
-%right ASSIGN ARROW_LEFT PLUS_ASSIGN MINUS_ASSIGN TIMES_ASSIGN DIVIDE_ASSIGN
+%right TYPE_ID
+
+%left COMMA
+
+%right ASSIGN ARROW_LEFT PLUS_ASSIGN MINUS_ASSIGN TIMES_ASSIGN DIVIDE_ASSIGN MOD_ASSIGN 
 
 %left LOGICAL_OR 
 %left LOGICAL_AND
@@ -77,7 +81,6 @@
 %left BITWISE_OR
 %left BITWISE_XOR
 %left BITWISE_AND
-
 
 %left PLUS MINUS
 %left TIMES DIVIDE MOD
@@ -151,9 +154,14 @@ primary
 	: OPEN_PAREN expression CLOSE_PAREN { $$ = $2; SET_LOCATION($$); } 
 	|	VALUE { $$ = $1; SET_LOCATION($$); }
 	| STRING { $$ = new StrVal(*$1); }
-	|	TYPE_ID { $$ = new VarExpr(*$1); SET_LOCATION($$); }
-	| TYPE_ID OPEN_PAREN opt_arg_list CLOSE_PAREN { $$ = new FuncCall(*$1, *$3); SET_LOCATION($$); }
+	//|	TYPE_ID { $$ = new VarExpr(*$1); SET_LOCATION($$); }
+	//| TYPE_ID OPEN_PAREN opt_arg_list CLOSE_PAREN { $$ = new FuncCall(*$1, *$3); SET_LOCATION($$); }
 	| MINUS expression { $$ = new NegativeExpr($2); }
+	
+  | TYPE_ID { $$ = new VarExpr(*$1); SET_LOCATION($$); }
+  | TYPE_ID OPEN_PAREN opt_arg_list CLOSE_PAREN { $$ = new FuncCall(*$1, *$3); SET_LOCATION($$); }
+
+  | TYPE_ID arg_list { $$ = new FuncCall(*$1, *$2); SET_LOCATION($$); }
 	;
 
 function
@@ -189,13 +197,13 @@ extern_function
 	;
 
 opt_arg_list
-	: arg_list { $$ = $1; }
+	: arg_list{ $$ = $1; }
 	| { $$ = new ArgList(); }
 	;
 
 arg_list
 	: arg_list COMMA expression { $1->push_back($3); }
-	| expression { $$ = new ArgList(); $$->push_back($1); }
+	| expression %prec CLOSE_PAREN { $$ = new ArgList(); $$->push_back($1); }
 	;
 
 if_statement
