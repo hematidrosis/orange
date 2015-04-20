@@ -1,0 +1,8 @@
+def foo(a)
+	return a - 5
+end 
+
+return 1 if (foo -5) != -10  
+return 1 if (foo -5 - 5) != -5 
+return 1 if (foo 5) != 0
+return 0

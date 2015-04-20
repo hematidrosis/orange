@@ -1,0 +1,3 @@
+extern int32 printf(char *s, ...)
+a = printf "Hello!\n"
+return a - 7
