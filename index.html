@@ -95,15 +95,14 @@
             <pre>
 extern int32 printf(char* s, ...)
 
-for (int i = 0; i < 10; i++) 
+for (var i = 0; i < 10; i++) 
   printf("Hello, world %d!\n", i)
 end
 </pre>
           </div>
           <div role="tabpanel" class="tab-pane" id="pointers">
             <pre>
-# type id is a unique generic per parameter 
-def swap(id a, id b) 
+def swap(a, b) 
   temp = *a 
   *a = *b
   *b = temp 
