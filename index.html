@@ -74,13 +74,13 @@
           <li>Compile to a native binary</li>
           <li>Target desktop or ARM development boards</li>
           <li>Low-level features: pointers and inline assembly</li>
-          <li>High-level features: concurrency, reference counting for memory management</li>
+          <li>High-level Focus on concurrency, reference counting for memory management</li>
           <li>High level features should feel part of the language, and not the API</li>
         </ul>
       </div>
 
       <div class="col-md-7">
-        <h2>Examples</h2>
+        <h2>Examples<sup>1</sup></h2>
         <ul class="nav nav-tabs" role="tablist">
           <li role="presentation" class="active">
             <a href="#hello_world" aria-controls="hello_world" role="tab" data-toggle="tab">Hello World</a>
@@ -88,31 +88,53 @@
           <li role="presentation">
             <a href="#pointers" aria-controls="pointers" role="tab" data-toggle="tab">Pointers</a>
           </li>
+          <li role="presentation">
+            <a href="#concurrency" aria-controls="concurrency" role="tab" data-toggle="tab">Concurrency</a>
+          </li>
         </ul>
 
         <div class="tab-content">
           <div role="tabpanel" class="tab-pane active" id="hello_world">
             <pre>
-# specifying return type only necessary for externs 
-extern printf(char* s, ...) -> int32
-
-for (var i = 0; i < 10; i++) 
-  printf("Hello, world %d!\n", i)
+for (var i in 0..10)
+  print("Hello world #{i}") 
 end
 </pre>
           </div>
           <div role="tabpanel" class="tab-pane" id="pointers">
             <pre>
-def swap(a, b) 
+def swap(var a, var b) 
   temp = *a 
   *a = *b
   *b = temp 
 end
 
 int a = 3, b = 5
-swap(&a, &b)</pre>
+swap(&a, &b)
+print("a is #{a} and b is #{b})
+</pre>
+          </div>
+          <div role="tabpanel" class="tab-pane" id="concurrency">
+            <pre>
+var arr = [0, 5, -3, 7, 2, 1]
+var channel = new Channel
+
+# concurrently execute a block in another thread, 
+# sending to channel 
+do {
+  var sum = 0 
+  sum += e for (var e : arr)
+  send sum 
+} -> channel 
+
+# recieve the sum from channel, blocking until received 
+var sum <- channel 
+print("The sum is #{sum}")
+</pre>
           </div>
         </div>
+
+        <small><sup>1</sup> Planned features</small>
       </div>
     </div>
   </div>
