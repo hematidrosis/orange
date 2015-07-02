@@ -88,6 +88,9 @@
           <li role="presentation">
             <a href="#pointers" aria-controls="pointers" role="tab" data-toggle="tab">Pointers</a>
           </li>
+          <li role="arrays">
+            <a href="#arrays" aria-controls="arrays" role="tab" data-toggle="tab">Arrays</a>
+          </li>
           <li role="presentation">
             <a href="#concurrency" aria-controls="concurrency" role="tab" data-toggle="tab">Concurrency</a>
           </li>
@@ -112,6 +115,19 @@ end
 
 int a = 3, b = 5
 swap(&a, &b)
+</pre>
+          </div>
+          <div role="tabpanel" class="tab-pane" id="arrays">
+            <pre>
+extern printf(char* s, ...) -> int32
+var arr = [0, 5, -1, 3, 9, 12]
+var sum = 0
+
+for (var i = 0; i < sizeof(arr)/sizeof(int); i++)
+  sum += arr[i]
+end
+
+printf("sum: %d\n", sum)
 </pre>
           </div>
           <div role="tabpanel" class="tab-pane" id="concurrency">
